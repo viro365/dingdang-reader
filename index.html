@@ -6411,7 +6411,7 @@ function updateHomeProgress() {
   
   // Week label and book info
   const meta = weekMeta[currentWeek];
-  document.getElementById('week-label').textContent = '📊 第' + currentWeek + '周进度';
+  var _wl=document.getElementById('week-label');if(_wl)_wl.textContent=' 第'+currentWeek+'周进度';
   var _wb = document.getElementById('week-book-info'); if (_wb) _wb.textContent = meta.emoji + ' ' + meta.book + ' · ' + meta.theme;
   
   // Overall progress
