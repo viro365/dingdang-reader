@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>音频诊断测试</title>
+<style>
+body{font-size:20px;padding:20px;background:#fef9f0;font-family:sans-serif}
+.btn{display:block;width:90%;margin:15px auto;padding:18px;font-size:20px;border:none;border-radius:12px;cursor:pointer;color:#fff}
+.btn-green{background:#6baf7a}
+.btn-blue{background:#5b9bd5}
+.btn-orange{background:#e8a04c}
+#status{margin:20px;padding:15px;background:#fff;border-radius:10px;font-size:16px;line-height:1.8}
+.ok{color:#2a7d3f} .fail{color:#c0392b}
+</style></head>
+<body>
+<h2>🔊 音频播放诊断</h2>
+<p>依次点击下面3个按钮，看能不能听到声音：</p>
+
+<button class="btn btn-green" onclick="test1()">测试1：播放古诗（HTTPS相对路径）</button>
+<button class="btn btn-blue" onclick="test2()">测试2：播放故事（new Audio）</button>
+<button class="btn btn-orange" onclick="test3()">测试3：浏览器自带朗读（TTS）</button>
+
+<div id="status">等待操作...</div>
+
+<script>
+var statusEl = document.getElementById('status');
+function log(msg, cls) {
+  statusEl.innerHTML += '<div class="' + (cls||'') + '">' + msg + '</div>';
+}
+
+function test1() {
+  log('测试1: 创建Audio对象...');
+  var audio = new Audio('audio/poems/day1_poem.mp3');
+  audio.addEventListener('canplay', function() {
+    log('✅ 音频已加载，开始播放...', 'ok');
+    audio.play().then(function() {
+      log('✅ 播放成功！应该能听到古诗朗读', 'ok');
+    }).catch(function(e) { log('❌ play()被拒绝: ' + e.message, 'fail'); });
+  });
+  audio.addEventListener('error', function(e) {
+    log('❌ 音频加载失败，请检查网络', 'fail');
+  });
+  log('请求URL: ' + location.origin + '/audio/poems/day1_poem.mp3');
+}
+
+function test2() {
+  log('测试2: 创建Audio对象（故事）...');
+  var audio = new Audio('audio/stories/week1_day1_story.mp3');
+  audio.addEventListener('canplay', function() {
+    log('✅ 故事音频已加载', 'ok');
+    audio.play().then(function() {
+      log('✅ 故事播放成功！', 'ok');
+    }).catch(function(e) { log('❌ play()被拒绝: ' + e.message, 'fail'); });
+  });
+  audio.addEventListener('error', function(e) {
+    log('❌ 故事音频加载失败', 'fail');
+  });
+}
+
+function test3() {
+  log('测试3: 使用浏览器TTS...');
+  if ('speechSynthesis' in window) {
+    var u = new SpeechSynthesisUtterance('叮当你好，这是浏览器自带的朗读功能测试');
+    u.lang = 'zh-CN'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+    log('✅ TTS已启动，应该能听到说话声', 'ok');
+  } else {
+    log('❌ 当前浏览器不支持TTS', 'fail');
+  }
+}
+</script></body></html>
