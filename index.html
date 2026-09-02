@@ -6241,8 +6241,8 @@ let filledCount = 0;
 
 /* ==================== 数据存储 ==================== */
 function loadData() {
-  const raw = localStorage.getItem(STORAGE_KEY);
-  if (raw) return JSON.parse(raw);
+  let raw; try { raw = localStorage.getItem(STORAGE_KEY); } catch(e) { console.warn('[叮当精读乐园] 读取存储失败', e); raw = null; }
+  if (raw) { try { return JSON.parse(raw); } catch(e) { console.warn("[叮当精读乐园] 本地数据损坏，重置进度", e); } }
   return {
     completed: {
       1: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false },
@@ -6281,7 +6281,7 @@ function loadData() {
   };
 }
 function saveData(data) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) { console.warn('[叮当精读乐园] 保存失败（存储已满？）', e); }
 }
 
 /* ==================== 导航 ==================== */
@@ -6341,6 +6341,7 @@ function navigateTo(page) {
     const recited = (data.poems && data.poems.recited) ? data.poems.recited : [];
     let firstUnfinished = 0;
     for (let i = 0; i < poems[currentWeek].length; i++) {
+      if (!poems[currentWeek] || !poems[currentWeek][i]) continue;
       if (!recited.includes(poems[currentWeek][i].title)) { firstUnfinished = i; break; }
       if (i === poems[currentWeek].length - 1) firstUnfinished = i; // 全部完成则停在最后一首
     }
@@ -6674,6 +6675,7 @@ function toggleSpeakAudio(day, audioUrl) {
 function completePoem() {
   const data = loadData();
   if (!data.poems) data.poems = { recited: [], familiar: [] };
+  if (!poems[currentWeek] || !poems[currentWeek][currentPoem]) { console.warn('成语数据缺失'); return; }
   const title = poems[currentWeek][currentPoem].title;
   if (!data.poems.recited.includes(title)) {
     data.poems.recited.push(title);
@@ -7711,7 +7713,8 @@ function completeCurrentDay() {
   data.completed[currentWeek][currentDay] = true;
   // 保存成语
   if (!data.idioms) data.idioms = { learned: [], mastered: [] };
-  const idiom = stories[currentWeek][currentDay].idiom;
+  const _storyEntry = stories[currentWeek] && stories[currentWeek][currentDay];
+  const idiom = _storyEntry ? _storyEntry.idiom : '';
   if (!data.idioms.learned.includes(idiom)) data.idioms.learned.push(idiom);
   saveData(data);
 
@@ -8087,7 +8090,7 @@ function handleImport(event) {
 function resetProgress() {
   if (confirm('⚠️ 确定要重置所有进度吗？这个操作不可恢复！')) {
     if (confirm('⚠️ 真的要重置吗？所有学习记录都会被清除！')) {
-      localStorage.removeItem(STORAGE_KEY);
+      try { localStorage.removeItem(STORAGE_KEY); } catch(e) { console.warn('[叮当精读乐园] 清除存储失败', e); }
       alert('✅ 进度已重置。');
       navigateTo('home');
     }
