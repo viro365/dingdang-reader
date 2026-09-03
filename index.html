@@ -1705,9 +1705,9 @@ const stories = {
     tryQuestion: "这一周的故事里，你最喜欢哪一个？为什么？",
     idiom: "情同手足",
     idiomAudio: "audio/idioms/week2_day6_idiom.mp3",
-    idiomStory: "",
-    idiomMeaning: "",
-    idiomExamples: [],
+    idiomStory: "青蛙和蟾蜍是最好最好的朋友。他们一起吃饭，一起散步，一起看花。\u003cbr\u003e有一次蟾蜍生病了，青蛙守在他床边，给他讲故事，帮他盖被子。\u003cbr\u003e蟾蜍说：\u003cspan class=\"dialogue\"\u003e"谢谢你一直陪着我。"\u003c/span\u003e\u003cbr\u003e青蛙说：\u003cspan class=\"dialogue\"\u003e"我们是好朋友嘛！"\u003c/span\u003e\u003cbr\u003e他们就像亲兄弟一样，谁也离不开谁。这就叫\u003cb\u003e情同手足\u003c/b\u003e。",
+    idiomMeaning: "感情好得就像亲兄弟一样。形容朋友之间非常亲密。",
+    idiomExamples: ["青蛙和蟾蜍情同手足，天天在一起。", "小明和小红从小一起长大，情同手足。", "他们是情同手足的好朋友。"],
     gameId: "day6"
   },
   7: {
@@ -1747,9 +1747,9 @@ const stories = {
     tryQuestion: "如果让你给好朋友写一封信，你会写什么？",
     idiom: "形影不离",
     idiomAudio: "audio/idioms/week2_day7_idiom.mp3",
-    idiomStory: "",
-    idiomMeaning: "",
-    idiomExamples: [],
+    idiomStory: "青蛙和蟾蜍不管去哪儿，都在一起。\u003cbr\u003e春天，他们一起在花园里种花。\u003cbr\u003e夏天，他们一起游泳、讲故事。\u003cbr\u003e秋天，他们一起捡落叶。\u003cbr\u003e冬天，蟾蜍冬眠了，青蛙就帮他看好房子，等他醒来。\u003cbr\u003e他们就像一个人的影子一样，走到哪儿都在一起。\u003cbr\u003e这就叫\u003cb\u003e形影不离\u003c/b\u003e。",
+    idiomMeaning: "身体和影子分不开。形容两个人关系非常好，总在一起。",
+    idiomExamples: ["青蛙和蟾蜍形影不离，做什么都在一起。", "好朋友形影不离，下课也一起玩。", "小猫和小狗形影不离，每天都在一起睡觉。"],
     gameId: "day7"
   }
 },
@@ -2240,11 +2240,6 @@ const stories = {
             'opts': ['"太好了！"', '"随便吧"', '"不高兴，不高兴！"', '"我不想玩"'],
             'answer': 2
           },
-          {
-            'q': '没头脑和不高兴是什么关系？',
-            'opts': ['兄弟', '同学', '最好的朋友', '邻居但不说话'],
-            'answer': 2
-          }
         ],
         'speakPrompt': 'audio/speak/week5_day1_speak.mp3',
         'speakHints': [
@@ -2300,11 +2295,6 @@ const stories = {
             'opts': ['没有窗户', '没有电梯', '没有门', '没有楼梯'],
             'answer': 1
           },
-          {
-            'q': '没头脑为什么会犯这个错误？',
-            'opts': ['时间不够', '他马马虎虎忘了设计', '领导没告诉他', '他故意不设计的'],
-            'answer': 1
-          }
         ],
         'speakPrompt': 'audio/speak/week5_day2_speak.mp3',
         'speakHints': [
@@ -2360,11 +2350,6 @@ const stories = {
             'opts': ['书包', '帽子', '水壶', '鞋子'],
             'answer': 2
           },
-          {
-            'q': '没头脑最后为什么后悔？',
-            'opts': ['因为他忘了自己的房间', '因为他的马虎让大家爬楼梯很辛苦', '因为他把大楼设计歪了', '因为他忘了开门'],
-            'answer': 1
-          }
         ],
         'speakPrompt': 'audio/speak/week5_day3_speak.mp3',
         'speakHints': [
@@ -2420,11 +2405,6 @@ const stories = {
             'opts': ['他忘了台词', '他不想被打死，不高兴认输', '他觉得剧本太无聊', '他害怕武松'],
             'answer': 1
           },
-          {
-            'q': '最后这场戏演成了什么样？',
-            'opts': ['武松打死了老虎', '老虎追武松，整出戏全乱了', '老虎和武松成了朋友', '观众们纷纷离场'],
-            'answer': 1
-          }
         ],
         'speakPrompt': 'audio/speak/week5_day4_speak.mp3',
         'speakHints': [
@@ -2480,11 +2460,6 @@ const stories = {
             'opts': ['不高兴演戏太差', '不高兴不听话，追着武松跑', '不高兴老是忘台词', '不高兴不想演了'],
             'answer': 1
           },
-          {
-            'q': '仙爷爷对他们说了什么道理？',
-            'opts': ['要更加努力学习', '小时候不改毛病，长大后果很严重', '长大了自然就会好了', '应该去学更多的本领'],
-            'answer': 1
-          }
         ],
         'speakPrompt': 'audio/speak/week5_day5_speak.mp3',
         'speakHints': [
@@ -2539,21 +2514,6 @@ const stories = {
             'opts': ['老师', '医生', '建筑师', '演员'],
             'answer': 2
           },
-          {
-            'q': '少年宫最大的问题是什么？',
-            'opts': ['没有窗户', '没有电梯', '没有门', '没有灯'],
-            'answer': 1
-          },
-          {
-            'q': '不高兴长大后做了什么？',
-            'opts': ['老师', '医生', '建筑师', '演员'],
-            'answer': 3
-          },
-          {
-            'q': '不高兴演老虎的时候做了什么？',
-            'opts': ['乖乖被打死', '不按剧本走，追着武松跑', '逃跑了', '和武松成了朋友'],
-            'answer': 1
-          }
         ],
         'speakPrompt': 'audio/speak/week5_day6_speak.mp3',
         'speakHints': [
@@ -2579,11 +2539,11 @@ const stories = {
           }
         ],
         'tryQuestion': '这一周的故事里，你觉得谁的毛病更严重？为什么？',
-        'idiom': '马马虎虎',
+        'idiom': '丢三落四',
         'idiomAudio': 'audio/idioms/week5_day6_idiom.mp3',
-        'idiomStory': '',
-        'idiomMeaning': '',
-        'idiomExamples': [],
+        'idiomStory': '小熊早上出门上学，到了学校才发现——书包没带！<br>他跑回家拿书包，结果到了教室又发现——作业本忘在书包里了，可书包又放在家里了。<br>老师问：<span class="dialogue">"小熊，你的作业呢？"</span><br>小熊红着脸说：<span class="dialogue">"我……忘记带了。"</span><br>同学们都笑了：<span class="dialogue">"小熊总是丢三落四的！"</span><br>小熊下定决心：<span class="dialogue">"以后出门前，我要检查三遍！"</span>',
+        'idiomMeaning': '形容做事马虎粗心，不是忘了这个就是忘了那个。',
+        'idiomExamples': ['没头脑总是丢三落四，上学忘带作业本。', '出门前要检查一下，不要丢三落四的。', '他丢三落四的毛病终于改掉了！'],
         'gameId': 'day6'
       },
       7: {
@@ -2608,11 +2568,6 @@ const stories = {
             'opts': ['丢掉了三个，落下了四个', '形容做事马虎，总是忘事', '把东西到处乱扔', '不愿意收拾东西'],
             'answer': 1
           },
-          {
-            'q': '没头脑和不高兴分别有什么毛病？',
-            'opts': ['没头脑爱哭、不高兴爱笑', '没头脑马虎、不高兴闹情绪', '没头脑胆小、不高兴贪吃', '没头脑懒惰、不高兴爱打架'],
-            'answer': 1
-          }
         ],
         'speakPrompt': 'audio/speak/week5_day7_speak.mp3',
         'speakHints': [
@@ -2638,11 +2593,11 @@ const stories = {
           }
         ],
         'tryQuestion': '叮当，如果你是没头脑或不高兴的好朋友，你会怎么帮助他们改毛病？',
-        'idiom': '马马虎虎',
+        'idiom': '知错能改',
         'idiomAudio': 'audio/idioms/week5_day7_idiom.mp3',
-        'idiomStory': '',
-        'idiomMeaning': '',
-        'idiomExamples': [],
+        'idiomStory': '小狐狸在草地上踢球，一不小心把球踢到了兔奶奶的花园里。<b>啪嗒！</b>花盆碎了。<br>小狐狸害怕了，想偷偷跑掉。可是他觉得这样不对。<br>他走到兔奶奶面前说：<span class="dialogue">"兔奶奶，对不起，花盆是我打碎的。"</span><br>兔奶奶摸摸他的头：<span class="dialogue">"谢谢你告诉我，犯了错误能勇敢承认，就是好孩子。"</span><br>小狐狸帮兔奶奶把花园收拾干净，还种上了新的花。<br>这就叫<b>知错能改</b>——知道自己做错了，就勇敢地去改正。',
+        'idiomMeaning': '知道自己做错了，能够勇敢地去改正。',
+        'idiomExamples': ['没头脑知道自己马虎，下决心认真改正。', '知错能改就是好孩子。', '他打碎了花瓶，知错能改，主动道歉了。'],
         'gameId': 'day7'
       }
     },
@@ -2670,11 +2625,6 @@ const stories = {
             'opts': ['太贪吃', '太爱哭', '总是闹情绪、不配合', '太胆小'],
             'answer': 2
           },
-          {
-            'q': '仙爷爷说什么是真正的勇敢？',
-            'opts': ['不害怕任何东西', '考100分', '知错能改', '跑得快'],
-            'answer': 2
-          }
         ],
         'speakPrompt': 'audio/speak/week6_day1_speak.mp3',
         'speakHints': [
@@ -2730,11 +2680,6 @@ const stories = {
             'opts': ['觉得很有用', '觉得没用', '觉得应该先买新羊', '觉得应该搬家'],
             'answer': 1
           },
-          {
-            'q': '"亡羊补牢"告诉我们什么道理？',
-            'opts': ['羊丢了就不要了', '出了错赶紧补救就不算晚', '羊圈不需要修', '应该多养一些羊'],
-            'answer': 1
-          }
         ],
         'speakPrompt': 'audio/speak/week6_day2_speak.mp3',
         'speakHints': [
@@ -2790,11 +2735,6 @@ const stories = {
             'opts': ['不和人说话', '不想做的事就不做', '深呼吸三次，想一想该不该做', '让别人帮他做'],
             'answer': 2
           },
-          {
-            'q': '没头脑向谁学习了？',
-            'opts': ['老师', '仙爷爷', '小方', '不高兴'],
-            'answer': 2
-          }
         ],
         'speakPrompt': 'audio/speak/week6_day3_speak.mp3',
         'speakHints': [
@@ -2850,11 +2790,6 @@ const stories = {
             'opts': ['仙爷爷的话', '演老虎时的场面', '老师的批评', '同学的嘲笑'],
             'answer': 1
           },
-          {
-            'q': '"引以为戒"是什么意思？',
-            'opts': ['以自己为骄傲', '把犯过的错当作提醒', '引以为豪', '把错误藏起来'],
-            'answer': 1
-          }
         ],
         'speakPrompt': 'audio/speak/week6_day4_speak.mp3',
         'speakHints': [
@@ -2910,11 +2845,6 @@ const stories = {
             'opts': ['100分试卷', '"最佳合作奖"奖状', '"最乖孩子"奖状', '"最勇敢"奖章'],
             'answer': 1
           },
-          {
-            'q': '这个故事告诉我们什么道理？',
-            'opts': ['小时候的毛病改不了', '犯了错永远也改不了', '只要愿意改正，就能变成更好的自己', '仙爷爷最厉害'],
-            'answer': 2
-          }
         ],
         'speakPrompt': 'audio/speak/week6_day5_speak.mp3',
         'speakHints': [
@@ -2969,21 +2899,6 @@ const stories = {
             'opts': ['龟兔赛跑', '亡羊补牢', '守株待兔', '拔苗助长'],
             'answer': 1
           },
-          {
-            'q': '没头脑用什么办法提醒自己？',
-            'opts': ['写日记', '做检查表贴在门后', '让同学提醒', '设闹钟'],
-            'answer': 1
-          },
-          {
-            'q': '不高兴向谁学习了？',
-            'opts': ['小方', '老师', '仙爷爷', '武松'],
-            'answer': 0
-          },
-          {
-            'q': '最后没头脑和不高兴变成了什么？',
-            'opts': ['大人', '神仙', '真正的好孩子', '明星'],
-            'answer': 2
-          }
         ],
         'speakPrompt': 'audio/speak/week6_day6_speak.mp3',
         'speakHints': [
@@ -3009,11 +2924,11 @@ const stories = {
           }
         ],
         'tryQuestion': '叮当，没头脑和不高兴的故事给你最大的启发是什么？',
-        'idiom': '知错能改',
+        'idiom': '亡羊补牢',
         'idiomAudio': 'audio/idioms/week6_day6_idiom.mp3',
-        'idiomStory': '',
-        'idiomMeaning': '',
-        'idiomExamples': [],
+        'idiomStory': '小明家养了一群小羊。有一天，羊圈破了一个洞，跑掉了一只羊。<br>邻居说：<span class="dialogue">"快把洞补上吧！"</span><br>小明说：<span class="dialogue">"羊已经丢了，补了也没用。"</span><br>第二天，又跑掉了一只羊！小明急了，赶紧找来木板和钉子，把洞补得结结实实的。<br>从那以后，再也没有丢过羊了。<br>这就叫<b>亡羊补牢</b>——出了问题赶紧想办法补救，还来得及！',
+        'idiomMeaning': '羊丢了赶紧修补羊圈。比喻出了问题以后想办法补救，可以防止继续受损失。',
+        'idiomExamples': ['虽然考试没考好，但亡羊补牢，从现在开始努力还来得及。', '发现错误就亡羊补牢，赶紧改正。', '亡羊补牢，为时未晚。'],
         'gameId': 'day6'
       },
       7: {
@@ -3038,11 +2953,6 @@ const stories = {
             'opts': ['做事要快', '犯了错要知错能改', '要听仙爷爷的话', '长大不好'],
             'answer': 1
           },
-          {
-            'q': '"改过自新"是什么意思？',
-            'opts': ['改名字', '改正错误，重新做人', '去新的地方', '穿新衣服'],
-            'answer': 1
-          }
         ],
         'speakPrompt': 'audio/speak/week6_day7_speak.mp3',
         'speakHints': [
@@ -3070,9 +2980,9 @@ const stories = {
         'tryQuestion': '叮当，没头脑和不高兴的故事里，你最喜欢哪个部分？你学到了什么？',
         'idiom': '改过自新',
         'idiomAudio': 'audio/idioms/week6_day7_idiom.mp3',
-        'idiomStory': '',
-        'idiomMeaning': '',
-        'idiomExamples': [],
+        'idiomStory': '小猴子以前总是抢别的小动物的水果吃，大家都不跟他玩。<br>有一天，小猴子生病了，没有人来看他。他很难过。<br>小松鼠给他送来了水果：<span class="dialogue">"给你吃，希望你快点好起来。"</span><br>小猴子感动极了，他决定改变自己。<br>从那以后，小猴子不再抢东西了，他开始帮助别人、分享食物。<br>大家都说：<span class="dialogue">"小猴子改过自新了！"</span><br>他又有了好多好朋友。',
+        'idiomMeaning': '改正错误，重新做人。形容一个人认识到自己的问题，努力变好。',
+        'idiomExamples': ['没头脑和不高兴都改过自新了，变成了好孩子。', '他认识到自己的错误，决定改过自新。', '只要你改过自新，大家都会喜欢你的。'],
         'gameId': 'day7'
       }
     },
@@ -3349,21 +3259,6 @@ const stories = {
             'opts': ['让他当保姆', '给小狼宝宝吃', '和他做朋友', '让他帮忙干活'],
             'answer': 1
           },
-          {
-            'q': '唏哩呼噜用什么吓跑了月牙熊？',
-            'opts': ['大石头', '大狼的枪', '自己的叫声', '一根树枝'],
-            'answer': 1
-          },
-          {
-            'q': '唏哩呼噜给谁当保镖送鸭蛋？',
-            'opts': ['鸡太太', '鸭太太', '鹅太太', '牛太太'],
-            'answer': 1
-          },
-          {
-            'q': '唏哩呼噜最后给妈妈买了什么生日礼物？',
-            'opts': ['大蛋糕', '一条围巾', '一个小萝卜', '一束花'],
-            'answer': 2
-          }
         ],
         'speakPrompt': 'audio/speak/week7_day6_speak.mp3',
         'speakHints': [
@@ -3384,11 +3279,11 @@ const stories = {
           }
         ],
         'tryQuestion': '这一周的故事里，你最喜欢哪一个？为什么？',
-        'idiom': '善良淳朴',
+        'idiom': '见义勇为',
         'idiomAudio': 'audio/idioms/week7_day6_idiom.mp3',
-        'idiomStory': '',
-        'idiomMeaning': '',
-        'idiomExamples': [],
+        'idiomStory': '小鸡花花在河边玩耍，突然听到<b>"救命啊！"</b>的喊声。<br>原来是小蚂蚁掉进了河里，水流好急！<br>花花虽然不太会游泳，但她没有犹豫，跳进水里游了过去。<br>她用翅膀把小蚂蚁托了起来，慢慢地游到了岸边。<br>大家都说：<span class="dialogue">"花花，你真勇敢！"</span><br>花花笑着说：<span class="dialogue">"看到别人有危险，当然要帮忙呀！"</span><br>这就叫<b>见义勇为</b>——看到应该做的事，就勇敢地去完成。',
+        'idiomMeaning': '看到正义的事情就勇敢地去做。形容勇敢地去做正确的事。',
+        'idiomExamples': ['唏哩呼噜见义勇为，帮助了弱小的小动物。', '看到有人摔倒，要见义勇为，赶紧去帮忙。', '见义勇为是一种很棒的品质！'],
         'gameId': 'day6'
       },
       7: {
@@ -3413,11 +3308,6 @@ const stories = {
             'opts': ['聪明', '善良', '有钱', '跑得快'],
             'answer': 1
           },
-          {
-            'q': '哪一天成语文告诉我们「先为别人着想」？',
-            'opts': ['善良淳朴', '助人为乐', '先人后己', '见义勇为'],
-            'answer': 2
-          }
         ],
         'speakPrompt': 'audio/speak/week7_day7_speak.mp3',
         'speakHints': [
@@ -3438,11 +3328,11 @@ const stories = {
           }
         ],
         'tryQuestion': '如果你是唏哩呼噜的好朋友，你会对他说什么？',
-        'idiom': '善良淳朴',
+        'idiom': '助人为乐',
         'idiomAudio': 'audio/idioms/week7_day7_idiom.mp3',
-        'idiomStory': '',
-        'idiomMeaning': '',
-        'idiomExamples': [],
+        'idiomStory': '小猪唏哩呼噜走在路上，看到小兔子搬不动一个大南瓜。<br><span class="dialogue">"我来帮你！"</span>唏哩呼噜跑过去，帮小兔子把南瓜搬回了家。<br>他又看到小鸟的窝掉在了地上，帮小鸟把窝挂回了树上。<br>一天下来，唏哩呼噜帮了好多好多人。<br>虽然很累，但他特别开心。<br>妈妈问：<span class="dialogue">"你今天怎么这么高兴？"</span><br>唏哩呼噜说：<span class="dialogue">"因为帮助了别人呀！帮助别人让我很快乐！"</span>',
+        'idiomMeaning': '把帮助别人当作快乐的事情。形容热心帮助别人的好品质。',
+        'idiomExamples': ['唏哩呼噜助人为乐，大家都喜欢他。', '我们要学习助人为乐的精神。', '助人为乐是一种美好的品德。'],
         'gameId': 'day7'
       }
     },
@@ -3719,21 +3609,6 @@ const stories = {
             'opts': ['看家', '抽毛毯上的灰尘', '做饭', '抓蝴蝶'],
             'answer': 1
           },
-          {
-            'q': '花花吞了两只大耗子后睡了多久？',
-            'opts': ['一天', '两天', '三天', '四天'],
-            'answer': 2
-          },
-          {
-            'q': '小猪卖橘子闯了什么祸？',
-            'opts': ['橘子被偷了', '马太太酸得掉了牙', '橘子烂了', '小猪自己拉肚子了'],
-            'answer': 1
-          },
-          {
-            'q': '小猪在学校遇到了谁？',
-            'opts': ['大狼先生', '月牙熊', '大狼的三个小宝宝', '老虎'],
-            'answer': 2
-          }
         ],
         'speakPrompt': 'audio/speak/week8_day6_speak.mp3',
         'speakHints': [
@@ -3754,11 +3629,11 @@ const stories = {
           }
         ],
         'tryQuestion': '这一周的故事里，你最喜欢哪一个？为什么？',
-        'idiom': '勇往直前',
+        'idiom': '百折不挠',
         'idiomAudio': 'audio/idioms/week8_day6_idiom.mp3',
-        'idiomStory': '',
-        'idiomMeaning': '',
-        'idiomExamples': [],
+        'idiomStory': '小种子被风吹到了石缝里。没有松软的泥土，没有充足的水分。<br>可是小种子没有放弃。它使劲地往下扎根，使劲地往上长。<br>石头挡住了它的去路，它就绕个弯继续长。<br>大风吹来，它弯下腰，风过了又挺直身子。<br>太阳晒得它好渴，它就等晚上露水来了使劲喝。<br>终于有一天，小种子从石缝里长了出来，开出了一朵漂亮的小花！<br>这就叫<b>百折不挠</b>——遇到再多困难也不放弃。',
+        'idiomMeaning': '不管受到多少挫折都不退缩。形容意志坚强，永不放弃。',
+        'idiomExamples': ['唏哩呼噜百折不挠，克服了一个又一个困难。', '学习要百折不挠，不怕失败。', '只要百折不挠，就一定能成功！'],
         'gameId': 'day6'
       },
       7: {
@@ -3783,11 +3658,6 @@ const stories = {
             'opts': ['大狼', '花花（蛇）', '月牙熊', '八哥'],
             'answer': 1
           },
-          {
-            'q': '下面哪个成语告诉我们「不怕失败」？',
-            'opts': ['勇往直前', '百折不挠', '临危不惧', '迎难而上'],
-            'answer': 1
-          }
         ],
         'speakPrompt': 'audio/speak/week8_day7_speak.mp3',
         'speakHints': [
@@ -3808,11 +3678,11 @@ const stories = {
           }
         ],
         'tryQuestion': '唏哩呼噜和花花的友谊让你感动吗？你觉得真正的朋友应该是什么样的？',
-        'idiom': '勇往直前',
+        'idiom': '坚持不懈',
         'idiomAudio': 'audio/idioms/week8_day7_idiom.mp3',
-        'idiomStory': '',
-        'idiomMeaning': '',
-        'idiomExamples': [],
+        'idiomStory': '小蜗牛想爬到树上的苹果那里去。树好高好高啊！<br>它爬呀爬，爬了一天又一天。<br>小鸟飞过来说：<span class="dialogue">"小蜗牛，你爬得太慢了，放弃吧！"</span><br>小蜗牛说：<span class="dialogue">"没关系，我慢慢爬，总会到的。"</span><br>下雨了，小蜗牛躲一躲，雨停了继续爬。<br>刮风了，小蜗牛抱紧树枝，风过了继续爬。<br>终于有一天，小蜗牛爬到了树顶，吃到了又大又红的苹果！<br>这就叫<b>坚持不懈</b>——一直坚持做一件事，永远不放弃。',
+        'idiomMeaning': '坚持到底，一点都不松懈。形容做事有毅力，不放弃。',
+        'idiomExamples': ['唏哩呼噜坚持不懈，终于战胜了困难。', '只要坚持不懈，就一定能成功。', '学习需要坚持不懈的努力。'],
         'gameId': 'day7'
       }
     },
@@ -4151,9 +4021,9 @@ const stories = {
         'tryQuestion': '狐狸爸爸的故事里，你最喜欢哪一段？为什么？',
         'idiom': '机智过人',
         'idiomAudio': 'audio/idioms/week9_day6_idiom.mp3',
-        'idiomStory': '',
-        'idiomMeaning': '',
-        'idiomExamples': [],
+        'idiomStory': '狐狸爸爸被三个坏农场主围在了洞里。\u003cbr\u003e农场主拿着铲子挖呀挖，可狐狸爸爸更聪明！\u003cbr\u003e他带着小狐狸往地下挖，挖着挖着——\u003cbr\u003e\u003cb\u003e嗖！\u003c/b\u003e他们挖通了博吉斯的鸡舍！\u003cbr\u003e\u003cb\u003e嗖！\u003c/b\u003e又挖通了邦斯的鹅仓！\u003cbr\u003e\u003cb\u003e嗖！\u003c/b\u003e还挖通了赛克的苹果酒窖！\u003cbr\u003e三个农场主累得满头大汗，狐狸爸爸却已经拿到了好多好吃的。\u003cbr\u003e这就叫\u003cb\u003e机智过人\u003c/b\u003e——比别人的办法都要聪明！',
+        'idiomMeaning': '聪明才智超过一般人。形容非常聪明、办法多。',
+        'idiomExamples': ["狐狸爸爸机智过人，总能想到好办法。", "诸葛亮机智过人，是古代最聪明的军师。", "她机智过人，很快解出了这道难题。"],
         'gameId': 'day6'
       },
       7: {
@@ -4205,9 +4075,9 @@ const stories = {
         'tryQuestion': '如果让你给狐狸爸爸画一幅画，你会画什么场景？',
         'idiom': '机智过人',
         'idiomAudio': 'audio/idioms/week9_day7_idiom.mp3',
-        'idiomStory': '',
-        'idiomMeaning': '',
-        'idiomExamples': [],
+        'idiomStory': '狐狸爸爸被三个坏农场主围在了洞里。\u003cbr\u003e农场主拿着铲子挖呀挖，可狐狸爸爸更聪明！\u003cbr\u003e他带着小狐狸往地下挖，挖着挖着——\u003cbr\u003e\u003cb\u003e嗖！\u003c/b\u003e他们挖通了博吉斯的鸡舍！\u003cbr\u003e\u003cb\u003e嗖！\u003c/b\u003e又挖通了邦斯的鹅仓！\u003cbr\u003e\u003cb\u003e嗖！\u003c/b\u003e还挖通了赛克的苹果酒窖！\u003cbr\u003e三个农场主累得满头大汗，狐狸爸爸却已经拿到了好多好吃的。\u003cbr\u003e这就叫\u003cb\u003e机智过人\u003c/b\u003e——比别人的办法都要聪明！',
+        'idiomMeaning': '聪明才智超过一般人。形容非常聪明、办法多。',
+        'idiomExamples': ["狐狸爸爸机智过人，总能想到好办法。", "诸葛亮机智过人，是古代最聪明的军师。", "她机智过人，很快解出了这道难题。"],
         'gameId': 'day7'
       }
     },
@@ -4546,9 +4416,9 @@ const stories = {
         'tryQuestion': '整个《了不起的狐狸爸爸》故事里，你最喜欢哪个部分？为什么？',
         'idiom': '坚持不懈',
         'idiomAudio': 'audio/idioms/week10_day6_idiom.mp3',
-        'idiomStory': '',
-        'idiomMeaning': '',
-        'idiomExamples': [],
+        'idiomStory': '小兔子想告诉大兔子他有多爱她。\u003cbr\u003e他把手臂张到最开：\u003cspan class=\"dialogue\"\u003e"我爱你这么多！"\u003c/span\u003e\u003cbr\u003e大兔子的手臂更长：\u003cspan class=\"dialogue\"\u003e"我爱你这么多。"\u003c/span\u003e\u003cbr\u003e小兔子跳得好高：\u003cspan class=\"dialogue\"\u003e"我爱你到我的脚趾头！"\u003c/span\u003e\u003cbr\u003e大兔子跳得更高。\u003cbr\u003e可是大兔子总是赢得比赛。小兔子想呀想，想呀想……\u003cbr\u003e他就是不放弃，一定要找到最大的爱。这就叫\u003cb\u003e坚持不懈\u003c/b\u003e。',
+        'idiomMeaning': '坚持到底，一点不放松。形容做事情有毅力，不放弃。',
+        'idiomExamples': ["小兔子坚持不懈，一定要告诉大兔子他有多爱她。", "叮当学写字的时候坚持不懈，终于写得越来越好。", "只要坚持不懈，就一定能成功。"],
         'gameId': 'day6'
       },
       7: {
@@ -4600,9 +4470,9 @@ const stories = {
         'tryQuestion': '如果你能像狐狸爸爸一样拥有一个超能力，你想要什么？为什么？',
         'idiom': '坚持不懈',
         'idiomAudio': 'audio/idioms/week10_day7_idiom.mp3',
-        'idiomStory': '',
-        'idiomMeaning': '',
-        'idiomExamples': [],
+        'idiomStory': '小兔子想告诉大兔子他有多爱她。\u003cbr\u003e他把手臂张到最开：\u003cspan class=\"dialogue\"\u003e"我爱你这么多！"\u003c/span\u003e\u003cbr\u003e大兔子的手臂更长：\u003cspan class=\"dialogue\"\u003e"我爱你这么多。"\u003c/span\u003e\u003cbr\u003e小兔子跳得好高：\u003cspan class=\"dialogue\"\u003e"我爱你到我的脚趾头！"\u003c/span\u003e\u003cbr\u003e大兔子跳得更高。\u003cbr\u003e可是大兔子总是赢得比赛。小兔子想呀想，想呀想……\u003cbr\u003e他就是不放弃，一定要找到最大的爱。这就叫\u003cb\u003e坚持不懈\u003c/b\u003e。',
+        'idiomMeaning': '坚持到底，一点不放松。形容做事情有毅力，不放弃。',
+        'idiomExamples': ["小兔子坚持不懈，一定要告诉大兔子他有多爱她。", "叮当学写字的时候坚持不懈，终于写得越来越好。", "只要坚持不懈，就一定能成功。"],
         'gameId': 'day7'
       }
     },
@@ -5452,11 +5322,6 @@ const thinkingQuestions = {
   { q: '蟾蜍每天去邮箱看，为什么很难过？', opts: ['📯 因为邮箱坏了', '✉️ 因为从来没人给他写信', '🎈 因为天气不好', '😴 因为他想睡觉'], answer: 1 },
   { q: '青蛙的信是通过谁送去的？', opts: ['🐦 小鸟', '🐌 蜗牛', '🐇 兔子', '🏃 青蛙自己'], answer: 1 },
   { q: '"一心一意"是什么意思？', opts: ['🎨 学画画', '🧠 做事专注认真，不分心', '🏃 跑得快', '😴 一心睡觉'], answer: 1 },
-  { q: '蟾蜍听故事时为什么一直问"然后呢"？', opts: ['😴 因为他想睡觉', '🍦 因为他想吃东西', '🤩 因为他迫不及待想知道结局', '📺 因为他想看动画片'], answer: 2 },
-  { q: '蟾蜍的纽扣在哪里找到的？', opts: ['🍳 厨房', '🌻 花园', '🐿️ 小松鼠家', '🛏️ 床底下'], answer: 2 },
-  { q: '"马马虎虎"是什么意思？', opts: ['🐴 骑马很快', '😤 做事不认真，随随便便', '🎵 唱歌很好听', '📖 读书很认真'], answer: 1 },
-  { q: '蟾蜍大扫除时为什么没帮上忙？', opts: ['😴 因为他睡着了', '🏃 因为他做事半途而废，跑去玩', '🍦 因为他去吃冰淇淋了', '📺 因为他看电视去了'], answer: 1 },
-  { q: '"有始有终"告诉我们什么道理？', opts: ['🏃 要跑得快', '💧 要多浇水', '✅ 做事从头到尾，不半途而废', '🎵 要大声唱歌'], answer: 2 }
 ],
   2: [
   {
@@ -5509,16 +5374,6 @@ const thinkingQuestions = {
     opts: ["要一起划船", "要一起经历困难", "要一起玩游戏", "要一起吃饭"],
     answer: 1
   },
-  {
-    q: "<span class=\"dialogue\">情同手足</span>形容什么？",
-    opts: ["手很大", "脚很快", "感情很好", "跑得快"],
-    answer: 2
-  },
-  {
-    q: "这一周我们一共学了多少个成语？",
-    opts: ["3个", "4个", "5个", "6个"],
-    answer: 2
-  }
 ],
   3: [
   { q: '蟾蜍为什么一开始不想收拾屋子？', opts: ['因为他不会收拾', '因为他觉得明天再做就好了', '因为青蛙不帮他', '因为屋子不脏'], answer: 1 },
