@@ -7299,7 +7299,10 @@ async function startRecording(btn) {
   }
   if (btn.classList.contains('has-recording')) {
     var container = btn.parentElement;
-    while (container && !container.querySelector('.playback-area')) { container = container.parentElement; }
+    while (container && !container.querySelector('.playback-area') && !container.querySelector('.recording-status')) {
+      if (container.classList && (container.classList.contains('page') || container.tagName === 'BODY')) break;
+      container = container.parentElement;
+    }
     if (container) {
       const playbackArea = container.querySelector('.playback-area');
       const statusArea = container.querySelector('.recording-status');
@@ -7307,9 +7310,18 @@ async function startRecording(btn) {
       if (statusArea) statusArea.textContent = '';
     }
     btn.classList.remove('has-recording');
-    btn.innerHTML = '🎤 点击录音';
-    // 从 localStorage 删除
+    // 恢复原始按钮文字
     var recKey = btn.getAttribute('data-rec-key');
+    if (recKey && recKey.indexOf('poem_') === 0) {
+      btn.innerHTML = '🎤 跟读录音';
+    } else if (recKey && recKey.indexOf('_speak') === recKey.length - 6) {
+      btn.innerHTML = '🎤 点击录音，讲出你的故事';
+    } else if (recKey && recKey.indexOf('_think') === recKey.length - 6) {
+      btn.innerHTML = '🎤 录下你的想法';
+    } else {
+      btn.innerHTML = '🎤 点击录音';
+    }
+    // 从 localStorage 删除
     if (recKey) deleteRecordingFromLS(recKey);
     return;
   }
@@ -7325,7 +7337,10 @@ async function startRecording(btn) {
       const url = URL.createObjectURL(blob);
       const parent = btn.closest('.step-panel, .card, .container, .poem-actions');
       var container = btn.parentElement;
-      while (container && !container.querySelector('.playback-area')) { container = container.parentElement; }
+      while (container && !container.querySelector('.playback-area') && !container.querySelector('.recording-status')) {
+        if (container.classList && (container.classList.contains('page') || container.tagName === 'BODY')) break;
+        container = container.parentElement;
+      }
       if (container) {
         const playbackArea = container.querySelector('.playback-area');
         const statusArea = container.querySelector('.recording-status');
@@ -7383,10 +7398,10 @@ function deleteRecordingFromLS(key) {
 function restoreRecordingUI(btn, key) {
   var saved = loadRecordingFromLS(key);
   if (saved) {
-    var parent = btn.closest('.step-panel, .card, .container, .poem-actions');
-    // 找到最近的 playback-area 和 recording-status
+    // 向上查找包含 playback-area 的容器（跳过 btn 自身的直接父级如果是按钮容器）
     var container = btn.parentElement;
-    while (container && !container.querySelector('.playback-area')) {
+    while (container && !container.querySelector('.playback-area') && !container.querySelector('.recording-status')) {
+      if (container.classList && (container.classList.contains('page') || container.tagName === 'BODY')) break;
       container = container.parentElement;
     }
     if (container) {
