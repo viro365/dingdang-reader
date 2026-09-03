@@ -5923,17 +5923,22 @@ function renderPoemPage() {
     '<div class="poem-author">【' + poem.author + '】</div>' +
     '<div class="poem-text">' + poem.text.replace(/\n/g, '<br>') + '</div>';
 
-  // 重置录音状态：切换古诗时清除上一首的录音
+  // 重置录音状态：切换古诗时清除上一首的录音，并恢复当前古诗的录音
   const recordBtn = document.querySelector('.record-btn');
+  const playbackArea = document.querySelector('.playback-area');
+  const recordingStatus = document.querySelector('.recording-status');
+  stopCurrentRecording();
   if (recordBtn) {
     recordBtn.classList.remove('has-recording', 'recording');
     recordBtn.innerHTML = '🎤 跟读录音';
+    // 设置当前古诗的录音 key
+    var recKey = 'poem_' + currentWeek + '_' + currentPoem;
+    recordBtn.setAttribute('data-rec-key', recKey);
+    if (playbackArea) playbackArea.innerHTML = '';
+    if (recordingStatus) recordingStatus.textContent = '';
+    // 恢复已保存的录音
+    restoreRecordingUI(recordBtn, recKey);
   }
-  const playbackArea = document.querySelector('.playback-area');
-  if (playbackArea) playbackArea.innerHTML = '';
-  const recordingStatus = document.querySelector('.recording-status');
-  if (recordingStatus) recordingStatus.textContent = '';
-  stopCurrentRecording();
 }
 
 function selectPoem(i) {
@@ -6247,18 +6252,26 @@ function renderStepContent() {
       });
       html += '</div>';
       html += '<div style="text-align:center;margin:16px 0;">';
-      html += '<button class="btn btn-blue record-btn" onclick="startRecording(this)" style="font-size:20px;padding:16px 32px;">🎤 点击录音，讲出你的故事</button>';
+      html += '<button class="btn btn-blue record-btn" data-rec-key="story_' + currentWeek + '_' + currentDay + '_speak" onclick="startRecording(this)" style="font-size:20px;padding:16px 32px;">🎤 点击录音，讲出你的故事</button>';
       html += '</div>';
       html += '<div class="recording-status"></div>';
       html += '<div class="playback-area"></div>';
       html += '<div class="try-card">' + story.tryQuestion + '</div>';
       html += '<div style="text-align:center;margin:12px 0;">';
-      html += '<button class="btn btn-green record-btn" onclick="startRecording(this)">🎤 录下你的想法</button>';
+      html += '<button class="btn btn-green record-btn" data-rec-key="story_' + currentWeek + '_' + currentDay + '_think" onclick="startRecording(this)">🎤 录下你的想法</button>';
       html += '</div>';
       html += '<div class="recording-status"></div>';
       html += '<div class="playback-area"></div>';
       html += '<button class="next-step-btn" onclick="switchStep(5)">✅ 说完了，下一步 →</button>';
       html += '</div>';
+      // 恢复故事录音
+      setTimeout(function() {
+        document.querySelectorAll('.record-btn[data-rec-key]').forEach(function(b) {
+          if (b.getAttribute('data-rec-key').indexOf('story_' + currentWeek + '_' + currentDay) === 0) {
+            restoreRecordingUI(b, b.getAttribute('data-rec-key'));
+          }
+        });
+      }, 50);
       break;
 
     case 5: // 成语时间
@@ -7285,13 +7298,19 @@ async function startRecording(btn) {
     return;
   }
   if (btn.classList.contains('has-recording')) {
-    const parent = btn.closest('.step-panel, .card, .container');
-    const playbackArea = parent.querySelector('.playback-area');
-    const statusArea = parent.querySelector('.recording-status');
-    if (playbackArea) playbackArea.innerHTML = '';
-    if (statusArea) statusArea.textContent = '';
+    var container = btn.parentElement;
+    while (container && !container.querySelector('.playback-area')) { container = container.parentElement; }
+    if (container) {
+      const playbackArea = container.querySelector('.playback-area');
+      const statusArea = container.querySelector('.recording-status');
+      if (playbackArea) playbackArea.innerHTML = '';
+      if (statusArea) statusArea.textContent = '';
+    }
     btn.classList.remove('has-recording');
     btn.innerHTML = '🎤 点击录音';
+    // 从 localStorage 删除
+    var recKey = btn.getAttribute('data-rec-key');
+    if (recKey) deleteRecordingFromLS(recKey);
     return;
   }
 
@@ -7304,14 +7323,21 @@ async function startRecording(btn) {
     mediaRecorder.onstop = () => {
       const blob = new Blob(audioChunks, { type: 'audio/webm' });
       const url = URL.createObjectURL(blob);
-      const parent = btn.closest('.step-panel, .card, .container');
-      const playbackArea = parent.querySelector('.playback-area');
-      const statusArea = parent.querySelector('.recording-status');
-      if (playbackArea) playbackArea.innerHTML = '<audio controls src="' + url + '"></audio>';
-      if (statusArea) statusArea.textContent = '';
+      const parent = btn.closest('.step-panel, .card, .container, .poem-actions');
+      var container = btn.parentElement;
+      while (container && !container.querySelector('.playback-area')) { container = container.parentElement; }
+      if (container) {
+        const playbackArea = container.querySelector('.playback-area');
+        const statusArea = container.querySelector('.recording-status');
+        if (playbackArea) playbackArea.innerHTML = '<audio controls src="' + url + '"></audio>';
+        if (statusArea) statusArea.textContent = '';
+      }
       btn.classList.remove('recording');
       btn.classList.add('has-recording');
       btn.innerHTML = '🎤 重新录制';
+      // 保存到 localStorage
+      var recKey = btn.getAttribute('data-rec-key');
+      if (recKey) saveRecordingToLS(recKey, blob);
       stream.getTracks().forEach(track => track.stop());
     };
 
@@ -7325,6 +7351,55 @@ async function startRecording(btn) {
     alert('无法访问麦克风，请允许浏览器使用麦克风权限。');
     console.error('录音失败:', err);
   }
+}
+
+// ===== 录音持久化：保存到 localStorage =====
+function saveRecordingToLS(key, blob) {
+  var reader = new FileReader();
+  reader.onloadend = function() {
+    try {
+      localStorage.setItem('rec_' + key, JSON.stringify({data: reader.result, type: blob.type || 'audio/webm'}));
+      console.log('录音已保存:', key);
+    } catch(e) {
+      console.warn('存储空间不足，录音无法保存:', e);
+    }
+  };
+  reader.readAsDataURL(blob);
+}
+
+function loadRecordingFromLS(key) {
+  try {
+    var raw = localStorage.getItem('rec_' + key);
+    if (!raw) return null;
+    var obj = JSON.parse(raw);
+    return {url: obj.data, type: obj.type || 'audio/webm'};
+  } catch(e) { return null; }
+}
+
+function deleteRecordingFromLS(key) {
+  try { localStorage.removeItem('rec_' + key); } catch(e) {}
+}
+
+function restoreRecordingUI(btn, key) {
+  var saved = loadRecordingFromLS(key);
+  if (saved) {
+    var parent = btn.closest('.step-panel, .card, .container, .poem-actions');
+    // 找到最近的 playback-area 和 recording-status
+    var container = btn.parentElement;
+    while (container && !container.querySelector('.playback-area')) {
+      container = container.parentElement;
+    }
+    if (container) {
+      var playbackArea = container.querySelector('.playback-area');
+      var statusArea = container.querySelector('.recording-status');
+      if (playbackArea) playbackArea.innerHTML = '<audio controls src="' + saved.url + '"></audio>';
+      if (statusArea) statusArea.textContent = '';
+    }
+    btn.classList.add('has-recording');
+    btn.innerHTML = '🎤 重新录制';
+    return true;
+  }
+  return false;
 }
 
 function stopCurrentRecording() {
