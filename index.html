@@ -5956,49 +5956,76 @@ function stopCurrentAudio() {
   }
 }
 
-// 通用音频播放：使用 audio 元素直接加载，兼容 file:// 协议
+// 通用音频播放：先加载再播放，解决 CDN 慢导致无声问题
 function playAudioUrl(audioUrl, onSuccess, onError) {
   stopCurrentAudio();
-  var audio = new Audio(audioUrl);
+  var audio = new Audio();
+  audio.preload = 'auto';
   _currentPlayingAudio = audio;
+  var called = false;
+  var done = function(fn, arg) {
+    if (called) return;
+    called = true;
+    clearTimeout(timeoutId);
+    fn(arg);
+  };
+
+  // 超时处理：30秒还没声音就报错
+  var timeoutId = setTimeout(function() {
+    console.warn('音频加载超时:', audioUrl);
+    _currentPlayingAudio = null;
+    audio.src = '';
+    if (onError) done(onError, new Error('加载超时'));
+  }, 30000);
+
   audio.addEventListener('ended', function() {
     _currentPlayingAudio = null;
   });
   audio.addEventListener('error', function(e) {
     console.warn('音频播放出错:', audioUrl, e);
     _currentPlayingAudio = null;
-    if (onError) onError(e);
+    if (onError) done(onError, e);
   });
-  var playPromise = audio.play();
-  if (playPromise) {
-    playPromise.then(function() {
-      if (onSuccess) onSuccess(audio);
-    }).catch(function(e) {
-      console.warn('音频播放被阻止:', audioUrl, e);
-      _currentPlayingAudio = null;
-      if (onError) onError(e);
-    });
+
+  // 数据加载够了就播放（不用等全部下载完）
+  function tryPlay() {
+    audio.removeEventListener('canplay', tryPlay);
+    audio.removeEventListener('loadeddata', tryPlay);
+    var p = audio.play();
+    if (p && p.then) {
+      p.then(function() { done(onSuccess, audio); })
+       .catch(function(e) {
+         console.warn('播放被阻止:', audioUrl, e);
+         _currentPlayingAudio = null;
+         if (onError) done(onError, e);
+       });
+    } else {
+      done(onSuccess, audio);
+    }
+  }
+
+  // 如果已经缓冲够了，直接播放
+  if (audio.readyState >= 2) {
+    tryPlay();
   } else {
-    // 旧浏览器没有 play promise
-    setTimeout(function() {
-      if (!audio.paused) {
-        if (onSuccess) onSuccess(audio);
-      } else {
-        if (onError) onError(new Error('播放失败'));
-      }
-    }, 200);
+    audio.addEventListener('canplay', tryPlay);
+    audio.addEventListener('loadeddata', tryPlay);
+  }
+
+  // 设置 src 开始加载
+  audio.src = audioUrl;
+  // 兼容：如果 readyState 在设置 src 后立刻变了
+  if (audio.readyState >= 2 && !called) {
+    tryPlay();
   }
 }
 
 function ttsPoem() {
   const poem = poems[currentWeek][currentPoem];
   const btn = document.querySelector('.btn-green[onclick="ttsPoem()"]');
-  // 优先使用预生成音频
   if (poem.audioUrl) {
-    if (poemAudio) {
-      poemAudio.pause();
-      poemAudio = null;
-    }
+    if (poemAudio) { poemAudio.pause(); poemAudio = null; }
+    if (btn) { btn.textContent = '⏳ 加载中，请稍候...'; btn.style.background = '#fff3cd'; }
     playAudioUrl(poem.audioUrl,
       function(audio) {
         poemAudio = audio;
@@ -6009,9 +6036,9 @@ function ttsPoem() {
         });
       },
       function() {
-        console.warn('音频文件加载失败: ' + poem.audioUrl);
-        if (btn) { btn.textContent = '❌ 加载失败，使用内置朗读'; btn.style.background = '#ffcccc'; }
-        setTimeout(function() { if(btn) { btn.textContent = '🔊 听朗读'; btn.style.background = ''; } }, 3000);
+        if (btn) { btn.textContent = '🔄 点击重试'; btn.style.background = '#ffcccc';
+          btn.onclick = function() { ttsPoem(); };
+        }
         fallbackTtsPoem(poem);
       }
     );
@@ -6038,103 +6065,99 @@ function fallbackTtsPoem(poem) {
 let storyAudioCache = {};
 function toggleStoryAudio(day, audioUrl) {
   const btn = document.getElementById('story-play-btn-' + day);
-  // 如果已经在播放，暂停
   if (storyAudioCache[day] && !storyAudioCache[day].paused) {
     storyAudioCache[day].pause();
     if (btn) { btn.textContent = '▶ 继续播放'; }
     return;
   }
-  // 如果已有缓存且暂停了，继续播放
   if (storyAudioCache[day] && storyAudioCache[day].paused) {
     storyAudioCache[day].play();
     if (btn) { btn.textContent = '⏸ 播放中...'; }
     return;
   }
-  // 首次播放
-  if (btn) { btn.textContent = '⏳ 加载中...'; btn.disabled = true; }
+  if (btn) { btn.textContent = '⏳ 加载中，请稍候...'; btn.style.background = '#fff3cd'; }
   playAudioUrl(audioUrl,
     function(audio) {
       storyAudioCache[day] = audio;
-      if (btn) { btn.textContent = '⏸ 播放中...'; btn.disabled = false; btn.style.background = ''; }
+      if (btn) { btn.textContent = '⏸ 播放中...'; btn.style.background = ''; }
       audio.addEventListener('ended', function() {
-        if (btn) { btn.textContent = '✅ 播放完毕'; btn.style.background = '#d4edda'; }
+        if (btn) { btn.textContent = '▶ 播放故事'; btn.style.background = '#d4edda'; }
         delete storyAudioCache[day];
         setTimeout(function() { if(btn) { btn.textContent = '▶ 播放故事'; btn.style.background = ''; } }, 3000);
       });
     },
     function() {
-      if (btn) { btn.textContent = '❌ 加载失败'; btn.style.background = '#ffcccc'; btn.disabled = false; }
-      setTimeout(function() { if(btn) { btn.textContent = '▶ 播放故事'; btn.style.background = ''; } }, 3000);
+      if (btn) { btn.textContent = '🔄 点击重试'; btn.style.background = '#ffcccc';
+        btn.onclick = function() { toggleStoryAudio(day, audioUrl); };
+      }
     }
   );
 }
+
 
 // 成语音频播放/暂停切换
 let idiomAudioCache = {};
 function toggleIdiomAudio(day, audioUrl) {
   const btn = document.getElementById('idiom-play-btn-' + day);
-  // 如果已经在播放，暂停
   if (idiomAudioCache[day] && !idiomAudioCache[day].paused) {
     idiomAudioCache[day].pause();
     if (btn) { btn.textContent = '▶ 继续播放'; }
     return;
   }
-  // 如果已有缓存且暂停了，继续播放
   if (idiomAudioCache[day] && idiomAudioCache[day].paused) {
     idiomAudioCache[day].play();
     if (btn) { btn.textContent = '⏸ 播放中...'; }
     return;
   }
-  // 首次播放
-  if (btn) { btn.textContent = '⏳ 加载中...'; btn.disabled = true; }
+  if (btn) { btn.textContent = '⏳ 加载中，请稍候...'; btn.style.background = '#fff3cd'; }
   playAudioUrl(audioUrl,
     function(audio) {
       idiomAudioCache[day] = audio;
-      if (btn) { btn.textContent = '⏸ 播放中...'; btn.disabled = false; btn.style.background = ''; }
+      if (btn) { btn.textContent = '⏸ 播放中...'; btn.style.background = ''; }
       audio.addEventListener('ended', function() {
-        if (btn) { btn.textContent = '✅ 播放完毕'; btn.style.background = '#d4edda'; }
+        if (btn) { btn.textContent = '▶ 听成语故事'; btn.style.background = '#d4edda'; }
         delete idiomAudioCache[day];
         setTimeout(function() { if(btn) { btn.textContent = '▶ 听成语故事'; btn.style.background = ''; } }, 3000);
       });
     },
     function() {
-      if (btn) { btn.textContent = '❌ 加载失败'; btn.style.background = '#ffcccc'; btn.disabled = false; }
-      setTimeout(function() { if(btn) { btn.textContent = '▶ 听成语故事'; btn.style.background = ''; } }, 3000);
+      if (btn) { btn.textContent = '🔄 点击重试'; btn.style.background = '#ffcccc';
+        btn.onclick = function() { toggleIdiomAudio(day, audioUrl); };
+      }
     }
   );
 }
+
 
 // 口语提示音频播放/暂停切换
 let speakAudioCache = {};
 function toggleSpeakAudio(day, audioUrl) {
   const btn = document.getElementById('speak-play-btn-' + day);
-  // 如果已经在播放，暂停
   if (speakAudioCache[day] && !speakAudioCache[day].paused) {
     speakAudioCache[day].pause();
     if (btn) { btn.textContent = '▶ 继续播放'; }
     return;
   }
-  // 如果已有缓存且暂停了，继续播放
   if (speakAudioCache[day] && speakAudioCache[day].paused) {
     speakAudioCache[day].play();
     if (btn) { btn.textContent = '⏸ 播放中...'; }
     return;
   }
-  // 首次播放
-  if (btn) { btn.textContent = '⏳ 加载中...'; btn.disabled = true; }
+  if (btn) { btn.textContent = '⏳ 加载中，请稍候...'; btn.style.background = '#fff3cd'; }
   playAudioUrl(audioUrl,
     function(audio) {
       speakAudioCache[day] = audio;
-      if (btn) { btn.textContent = '⏸ 播放中...'; btn.disabled = false; btn.style.background = ''; }
+      if (btn) { btn.textContent = '⏸ 播放中...'; btn.style.background = ''; }
       audio.addEventListener('ended', function() {
-        if (btn) { btn.textContent = '✅ 播放完毕'; btn.style.background = '#d4edda'; }
+        if (btn) { btn.textContent = '🔊 听提示'; btn.style.background = '#d4edda'; }
         delete speakAudioCache[day];
-        setTimeout(function() { if(btn) { btn.textContent = '▶ 听提示'; btn.style.background = ''; } }, 3000);
+        setTimeout(function() { if(btn) { btn.textContent = '🔊 听提示'; btn.style.background = ''; } }, 2000);
       });
     },
     function() {
-      if (btn) { btn.textContent = '❌ 加载失败'; btn.style.background = '#ffcccc'; btn.disabled = false; }
-      setTimeout(function() { if(btn) { btn.textContent = '▶ 听提示'; btn.style.background = ''; } }, 3000);
+      if (btn) { btn.textContent = '🔄 点击重试'; btn.style.background = '#ffcccc';
+        btn.onclick = function() { toggleSpeakAudio(day, audioUrl); };
+      }
     }
   );
 }
