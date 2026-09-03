@@ -5922,6 +5922,18 @@ function renderPoemPage() {
     '<div class="poem-title">' + poem.title + '</div>' +
     '<div class="poem-author">【' + poem.author + '】</div>' +
     '<div class="poem-text">' + poem.text.replace(/\n/g, '<br>') + '</div>';
+
+  // 重置录音状态：切换古诗时清除上一首的录音
+  const recordBtn = document.querySelector('.record-btn');
+  if (recordBtn) {
+    recordBtn.classList.remove('has-recording', 'recording');
+    recordBtn.innerHTML = '🎤 跟读录音';
+  }
+  const playbackArea = document.querySelector('.playback-area');
+  if (playbackArea) playbackArea.innerHTML = '';
+  const recordingStatus = document.querySelector('.recording-status');
+  if (recordingStatus) recordingStatus.textContent = '';
+  stopCurrentRecording();
 }
 
 function selectPoem(i) {
